@@ -20,6 +20,4 @@ public:
         }
         return favOutcomes/totalOutcomes;
     }
-
-    
 };
