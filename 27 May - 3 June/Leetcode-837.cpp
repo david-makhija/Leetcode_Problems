@@ -19,7 +19,5 @@ public:
             totalOutcomes += ((double)countOfOutcomes[i]);
         }
         return favOutcomes/totalOutcomes;
-
-        
     }
 };
