@@ -1,34 +1,32 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        unordered_map<int, vector<int>> um;
-        int n = nums.size();
+        vector<vector<int>> ans;
+        int n = nums.size(), prev=INT_MAX, prevlo=INT_MAX, prevhi=INT_MIN;
+        sort(nums.begin(), nums.end());
         for(int i=0; i<n; i++) {
-            if(um.find(nums[i])==um.end()) {
-                vector<int> temp;
-                temp.push_back(i);
-                um[nums[i]] = temp;
-            }
-            else {
-                um[nums[i]].push_back(i);
-            }
-        }
-        set<vector<int>> Sample;
-        for(int i=0; i<n; i++) {
-            for(int j=i+1; j<n; j++) {
-                if(um.find(-(nums[i]+nums[j]))!=um.end()) {
-                    for(int x:um[-(nums[i]+nums[j])]) {
-                        if(i!=x and j!=x) {
-                            vector<int> temp = {nums[i], nums[j], nums[x]};
-                            sort(temp.begin(), temp.end());
-                            Sample.insert(temp);
-                            break;
-                        }
-                    }
+            if(nums[i]==prev) continue;
+            if(nums[i]>0) break;
+            int lo=i+1, hi=n-1;
+            while(lo<hi) {
+                if(nums[lo]+nums[hi]+nums[i]==0) {
+                    ans.push_back({nums[i], nums[lo], nums[hi]});
+                    prevlo = nums[lo], prevhi = nums[hi];
+                    lo++, hi--;
                 }
+                if(nums[lo]+nums[hi]+nums[i]<0) {
+                    prevlo = nums[lo];
+                    lo++;
+                }
+                else {
+                    prevhi = nums[hi];
+                    hi--;
+                }
+                while(nums[lo]==prevlo) lo++;
+                while(nums[hi]==prevhi) hi--;
             }
+            prev = nums[i];
         }
-        vector<vector<int>> ans(Sample.begin(), Sample.end());
         return ans;
     }
 };
