@@ -28,9 +28,12 @@ public:
     }
     
     int get(int index, int snap_id) {
-        for(int i=snap_id; i>=0; i--) {
-            if(snapshots[i].find(index)!=snapshots[i].end()) return snapshots[i][index];
+        int lo=0, hi=snap_id+1;
+        while(lo<hi) {
+            int mid = lo + ((hi-lo)/2);
+            if(snapshots[mid].find(index)!=snapshots[mid].end()) lo = mid+1;
+            else hi = mid;
         }
-        return 0;
+        return (lo>0) ? snapshots[lo-1][index] : 0;
     }
 };
