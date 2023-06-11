@@ -9,21 +9,21 @@ public:
             if(nums[i]>0) break;
             int lo=i+1, hi=n-1;
             while(lo<hi) {
-                if(nums[lo]+nums[hi]+nums[i]==0) {
+                if((long long)(nums[lo]+nums[hi]+nums[i])==0) {
                     ans.push_back({nums[i], nums[lo], nums[hi]});
                     prevlo = nums[lo], prevhi = nums[hi];
                     lo++, hi--;
                 }
-                if(nums[lo]+nums[hi]+nums[i]<0) {
+                else if((long long)(nums[lo]+nums[hi]+nums[i])<0) {
                     prevlo = nums[lo];
                     lo++;
                 }
-                else {
+                else if((long long)(nums[lo]+nums[hi]+nums[i])>0) {
                     prevhi = nums[hi];
                     hi--;
                 }
-                while(nums[lo]==prevlo) lo++;
-                while(nums[hi]==prevhi) hi--;
+                while(lo<hi and nums[lo]==prevlo) lo++;
+                while(lo<hi and nums[hi]==prevhi) hi--;
             }
             prev = nums[i];
         }
