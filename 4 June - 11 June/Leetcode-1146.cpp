@@ -1,5 +1,4 @@
 class SnapshotArray {
-    vector<int> arr;
     int snap_id = 0;
     unordered_map<int, unordered_map<int, int>> snapshots;
     vector<int> changed;
@@ -8,14 +7,12 @@ public:
     SnapshotArray(int length) {
         n = length;
         for(int i=0; i<length; i++) {
-            arr.push_back(0);
             changed.push_back(-1);
         }
     }
     
     void set(int index, int val) {
         changed[index] = val;
-        arr[index] = val;
     }
     
     int snap() {
@@ -31,8 +28,8 @@ public:
     }
     
     int get(int index, int snap_id) {
-        for(auto itr=snapshots.begin(); itr!=snapshots.end(); itr++) {
-            if(itr->first<=snap_id and itr->second.find(index)!=itr->second.end()) return itr->second[index];
+        for(int i=snap_id; i>=0; i--) {
+            if(snapshots[i].find(index)!=snapshots[i].end()) return snapshots[i][index];
         }
         return 0;
     }
