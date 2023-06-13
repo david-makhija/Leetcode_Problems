@@ -36,11 +36,11 @@ public:
                 prev = sequences[i][j];
             }
         }
-        for(int i=1; i<=n; i++) {
-            cout<<i<<" -> ";
-            for(int x:adj[i]) cout<<x<<" ";
-            cout<<endl;
-        }
+        // for(int i=1; i<=n; i++) {
+        //     cout<<i<<" -> ";
+        //     for(int x:adj[i]) cout<<x<<" ";
+        //     cout<<endl;
+        // }
         stack<int> st;
         vector<bool> vis(n+1, false);
         vector<bool> dfsvis(n+1, false);
