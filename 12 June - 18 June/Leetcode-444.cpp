@@ -1,6 +1,4 @@
 class Solution {
-    int elementsTraversed = 0;
-    bool isLinear = false;
     void topoSort(int idx, vector<int>* adj, vector<bool>& vis, stack<int>& st) {
         if(vis[idx]) return;
         vis[idx] = true;
@@ -9,17 +7,14 @@ class Solution {
         }
         st.push(idx);
     }
-    bool cycleCheck(int idx, vector<int>* adj, vector<bool>& vis, vector<bool>& dfsvis, int n) {
+    bool cycleCheck(int idx, vector<int>* adj, vector<bool>& vis, vector<bool>& dfsvis) {
         if(dfsvis[idx]) return true;
         if(vis[idx]) return false;
-        elementsTraversed++;
         vis[idx] = true;
         dfsvis[idx] = true;
         for(int x:adj[idx]) {
-            if(cycleCheck(x, adj, vis, dfsvis, n)) return true;
+            if(cycleCheck(x, adj, vis, dfsvis)) return true;
         }
-        if(elementsTraversed==n) isLinear = true;
-        elementsTraversed--;
         dfsvis[idx] = false;
         return false;
     }
@@ -50,12 +45,18 @@ public:
         for(int i=1; i<=n; i++) {
             vis[i] = false;
         }
-        if(cycleCheck(st.top(), adj, vis, dfsvis, n)) return false;
-        for(int i=1; i<=n; i++) {
-            if(!vis[i]) {
-                return false;
+        if(cycleCheck(st.top(), adj, vis, dfsvis)) return false;
+        int prev = st.top();
+        st.pop();
+        while(!st.empty()) {
+            bool found = false;
+            for(int x:adj[prev]) {
+                if(x==st.top()) found = true;
             }
+            if(!found) return false;
+            prev = st.top();
+            st.pop();
         }
-        return isLinear;
+        return true;
     }
 };
